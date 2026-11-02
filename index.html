@@ -932,6 +932,14 @@ h2.two-line{max-width:none!important;text-wrap:initial}
 .global-cta.no-cta .mini-foot{margin-top:24px!important}
 .global-cta.no-cta .mini-foot::before{display:none}
 @media (max-width:600px){.wk-day{min-height:96px}.wk-day img{width:30px!important;height:30px!important}.wk-d{font-size:12px!important;letter-spacing:.05em!important}.wk-day b{font-size:12.5px!important}}
+/* Contact form: thank-you panel shown in place of the fields once a message is sent */
+#lead.done>:not(.thanks){display:none!important}
+#lead .thanks{text-align:center;padding:28px 8px 18px;outline:none}
+#lead .thanks svg{width:64px;height:64px;margin:0 auto 10px;display:block}
+#lead .thanks h3{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,4vw,38px);color:var(--green-deep);margin:0 0 8px}
+#lead .thanks p{color:var(--muted);margin:0 auto 18px;max-width:30ch;line-height:1.5}
+#lead .thanks button{background:none;border:0;padding:6px;font:inherit;font-weight:700;color:var(--teal-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+#lead .thanks button:hover{color:var(--green-deep)}
 /* GET STARTED: photo loop + Instagram on the left (sticky on desktop), heading + form on the right */
 .book-hero.gs-hero{min-height:auto;display:block;padding-block:64px 96px;background:radial-gradient(45% 55% at 10% 25%,#D3F3EF,transparent 70%),radial-gradient(40% 50% at 95% 85%,#E6F7C9,transparent 70%),#EEF6F8}
 .gs-split{display:grid;gap:48px;align-items:start}
@@ -1224,15 +1232,18 @@ html.sp-rv .rv.in{animation:sp-rise .8s cubic-bezier(.2,.7,.2,1) var(--rd,0s) bo
     // Web3Forms' script adds the hCaptcha check; only load it once a real key is in place
     if(live){var s=document.createElement('script');s.src='https://web3forms.com/client/script.js';s.async=true;s.defer=true;document.head.appendChild(s)}
     function say(t,bad){sent.textContent=t;sent.classList.toggle('err',!!bad);sent.hidden=false}
+    var thanks=document.getElementById('thanks');
+    function done(on){lead.classList.toggle('done',on);thanks.hidden=!on;if(on){lead.scrollIntoView({behavior:'smooth',block:'center'});thanks.focus({preventScroll:true})}}
+    document.getElementById('again').addEventListener('click',function(){done(false);lead.elements.namedItem('name').focus()});
     lead.addEventListener('submit',function(e){
       e.preventDefault();
       if(lead.botcheck.checked)return;
       if(!lead.elements.namedItem('name').value.trim()||!lead.email.checkValidity()||!lead.email.value){say('Please add your name and a valid email.',true);return}
-      if(!live){say('Thanks! This is a preview, so nothing was sent yet. Once the form key is added this goes straight to Elise.');lead.dispatchEvent(new Event('lead-sent'));return}
+      if(!live){done(true);lead.dispatchEvent(new Event('lead-sent'));return}
       var fd=new FormData(lead),ints=fd.getAll('interests');fd.delete('interests');fd.append('interests',ints.join(', '));
       sendBtn.disabled=true;say('Sending…');
       fetch('https://api.web3forms.com/submit',{method:'POST',body:fd}).then(function(r){return r.json()}).then(function(j){
-        if(j.success){lead.reset();say("Thanks! Elise will be in touch soon.");lead.dispatchEvent(new Event('lead-sent'))}
+        if(j.success){lead.reset();if(window.hcaptcha)try{hcaptcha.reset()}catch(x){}sent.hidden=true;done(true);lead.dispatchEvent(new Event('lead-sent'))}
         else say((j.message||'Something went wrong.')+' You can also DM @elisejavetski on Instagram.',true);
       }).catch(function(){say("Couldn't send right now. Please try again, or DM @elisejavetski on Instagram.",true)}).then(function(){sendBtn.disabled=false});
     });
