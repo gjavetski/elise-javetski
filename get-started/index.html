@@ -939,6 +939,22 @@ h2.two-line{max-width:none!important;text-wrap:initial}
 #lead .thanks p{color:var(--muted);margin:0 auto 18px;max-width:30ch;line-height:1.5}
 #lead .thanks button{background:none;border:0;padding:6px;font:inherit;font-weight:700;color:var(--teal-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 #lead .thanks button:hover{color:var(--green-deep)}
+/* Contact form: "Interested in" multi-select dropdown */
+.ms{position:relative;text-transform:none;letter-spacing:0;font-family:var(--f-body)}
+.ms summary{list-style:none;display:flex;align-items:center;gap:10px;font-size:16px;color:var(--cocoa);background:#F6FAFB;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer}
+.ms summary::-webkit-details-marker{display:none}
+.ms summary:focus-visible,.ms[open] summary{outline:none;border-color:var(--green-ink)}
+.ms-val{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-val.empty{color:#8A8079}
+.ms summary svg{width:18px;height:18px;flex:none;fill:none;stroke:var(--green-deep);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.ms[open] summary svg{transform:rotate(180deg)}
+.ms-list{position:absolute;z-index:20;right:0;width:max-content;min-width:100%;max-width:calc(100vw - 40px);top:calc(100% + 6px);background:#fff;border:1.5px solid var(--line);border-radius:16px;box-shadow:0 14px 34px rgba(37,61,88,.16);padding:6px}
+.ms-list label{white-space:nowrap;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:15px;font-weight:600;color:var(--cocoa);cursor:pointer}
+.ms-list label:hover{background:var(--sky)}
+.ms-list input{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;padding:0;border-radius:6px;border:2px solid var(--green-deep);background:#fff;display:grid;place-items:center;cursor:pointer}
+.ms-list input:checked{background:var(--green-deep)}
+.ms-list input:checked::after{content:"";width:9px;height:5px;border:solid #B8F23A;border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
+.ms-list input:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
 /* GET STARTED: photo loop + Instagram on the left (sticky on desktop), heading + form on the right */
 .book-hero.gs-hero{min-height:auto;display:block;padding-block:64px 96px;background:radial-gradient(45% 55% at 10% 25%,#D3F3EF,transparent 70%),radial-gradient(40% 50% at 95% 85%,#E6F7C9,transparent 70%),#EEF6F8}
 .gs-split{display:grid;gap:48px;align-items:start}
@@ -1084,18 +1100,22 @@ html.sp-rv .rv.in{animation:sp-rise .8s cubic-bezier(.2,.7,.2,1) var(--rd,0s) bo
         <input type="hidden" name="from_name" value="Elise Javetski website">
         <!-- Bot trap: hidden from people, bots fill it in and the message is dropped -->
         <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <p class="gs-form-note">Only name and email are required.</p>
-        <div class="gs-row"><label class="lab" for="f-name">Your name<input id="f-name" name="name" autocomplete="name" placeholder="First and last" required maxlength="80"></label>
-        <label class="lab" for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required maxlength="120"></label></div>
-        <div class="lab">Interested in
-          <div class="choices">
-            <input type="checkbox" name="interests" value="1-on-1 private coaching" id="i1" checked><label for="i1">1-on-1 private coaching</label>
-            <input type="checkbox" name="interests" value="Group classes" id="i4"><label for="i4">Group classes</label>
-            <input type="checkbox" name="interests" value="Assisted stretching" id="i2"><label for="i2">Assisted stretching</label>
-            <input type="checkbox" name="interests" value="Online coaching" id="i3"><label for="i3">Online coaching</label>
-            <input type="checkbox" name="interests" value="Something else" id="i5"><label for="i5">Something else</label>
-          </div>
-        </div>
+        <p class="gs-form-note">Only your name and email are required.</p>
+        <div class="gs-row"><label class="lab" for="f-first">First name<input id="f-first" name="first_name" autocomplete="given-name" required maxlength="60"></label>
+        <label class="lab" for="f-last">Last name<input id="f-last" name="last_name" autocomplete="family-name" required maxlength="60"></label></div>
+        <div class="gs-row"><label class="lab" for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required maxlength="120"></label>
+        <div class="lab"><span id="ms-lab">Interested in</span>
+          <details class="ms" id="ms">
+            <summary aria-labelledby="ms-lab ms-val"><span class="ms-val" id="ms-val">Choose any</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="ms-list" role="group" aria-labelledby="ms-lab">
+              <label><input type="checkbox" name="interests" value="1-on-1 private coaching" checked>1-on-1 private coaching</label>
+              <label><input type="checkbox" name="interests" value="Group classes">Group classes</label>
+              <label><input type="checkbox" name="interests" value="Assisted stretching">Assisted stretching</label>
+              <label><input type="checkbox" name="interests" value="Online coaching">Online coaching</label>
+              <label><input type="checkbox" name="interests" value="Something else">Something else</label>
+            </div>
+          </details>
+        </div></div>
         <label class="lab" for="f-msg">Anything Elise should know? (optional)<textarea id="f-msg" name="message" maxlength="2000" placeholder="Your goals, schedule or any questions"></textarea></label>
         <div class="h-captcha" data-captcha="true"></div>
         <button class="btn btn-solid" type="submit">Send to Elise →</button>
@@ -1180,11 +1200,17 @@ html.sp-rv .rv.in{animation:sp-rise .8s cubic-bezier(.2,.7,.2,1) var(--rd,0s) bo
     function say(t,bad){sent.textContent=t;sent.classList.toggle('err',!!bad);sent.hidden=false}
     var thanks=document.getElementById('thanks');
     function done(on){lead.classList.toggle('done',on);thanks.hidden=!on;if(on){lead.scrollIntoView({behavior:'smooth',block:'center'});thanks.focus({preventScroll:true})}}
-    document.getElementById('again').addEventListener('click',function(){done(false);lead.elements.namedItem('name').focus()});
+    document.getElementById('again').addEventListener('click',function(){done(false);lead.first_name.focus()});
+    // Interested in: a dropdown of checkboxes; the closed box lists what's picked
+    var ms=document.getElementById('ms'),msVal=document.getElementById('ms-val');
+    function msShow(){var on=[].slice.call(ms.querySelectorAll('input:checked')).map(function(c){return c.value});msVal.textContent=on.length?on.join(', '):'Choose any';msVal.classList.toggle('empty',!on.length)}
+    ms.addEventListener('change',msShow);lead.addEventListener('reset',function(){setTimeout(msShow)});msShow();
+    document.addEventListener('click',function(e){if(ms.open&&!ms.contains(e.target))ms.open=false});
+    ms.addEventListener('keydown',function(e){if(e.key==='Escape'&&ms.open){ms.open=false;ms.querySelector('summary').focus()}});
     lead.addEventListener('submit',function(e){
       e.preventDefault();
       if(lead.botcheck.checked)return;
-      if(!lead.elements.namedItem('name').value.trim()||!lead.email.checkValidity()||!lead.email.value){say('Please add your name and a valid email.',true);return}
+      if(!lead.first_name.value.trim()||!lead.last_name.value.trim()||!lead.email.checkValidity()||!lead.email.value){say('Please add your first name, last name and a valid email.',true);return}
       if(!live){done(true);lead.dispatchEvent(new Event('lead-sent'));return}
       var fd=new FormData(lead),ints=fd.getAll('interests');fd.delete('interests');fd.append('interests',ints.join(', '));
       sendBtn.disabled=true;say('Sending…');
