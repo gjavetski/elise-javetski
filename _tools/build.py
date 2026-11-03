@@ -29,7 +29,7 @@ PAGES = {
         'path': '/coaching/', 'out': 'coaching/index.html',
         'title': 'Group Classes & 1-on-1 Prenatal and Postpartum Coaching in Jersey City | Elise Javetski',
         'desc': 'Group strength classes and 1-on-1 private coaching for pregnant and postpartum moms with Elise Javetski in Jersey City, in person or online. See the weekly class schedule.',
-        'schema': lambda g: g.get('@type') == 'Event',
+        'schema': lambda g: g.get('@id', '').endswith('#business'),
     },
     'action': {
         'path': '/training-tips/', 'out': 'training-tips/index.html',
