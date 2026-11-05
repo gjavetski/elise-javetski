@@ -22,25 +22,25 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = {
     'home': {
         'path': '/', 'out': 'index.html',
-        'title': 'Prenatal & Postpartum Personal Trainer in Jersey City',
+        'title': 'Prenatal & Postpartum Trainer in Jersey City',
         'desc': 'Strength training for pregnancy and after baby in Jersey City: 1-on-1 coaching in person or online, weekly group classes for moms, and assisted stretching.',
         'schema': lambda g: g.get('@type') != 'FAQPage',
     },
     'services': {
         'path': '/coaching/', 'out': 'coaching/index.html',
-        'title': 'Group Classes & 1-on-1 Coaching for Moms in Jersey City',
+        'title': 'Group Classes & 1-on-1 Coaching for Moms',
         'desc': 'Group strength classes and 1-on-1 private coaching for pregnant and postpartum moms with Elise Javetski in Jersey City, in person or online. See the weekly class schedule.',
         'schema': lambda g: g.get('@id', '').endswith('#business'),
     },
     'action': {
         'path': '/training-tips/', 'out': 'training-tips/index.html',
-        'title': 'Prenatal & Postpartum Training Tips | Elise Javetski',
+        'title': 'Prenatal & Postpartum Training Tips',
         'desc': 'Free prenatal and postpartum training tips from Jersey City strength coach Elise Javetski: core and pelvic floor, breathing, stretching and strength basics.',
         'schema': lambda g: False,
     },
     'book': {
         'path': '/get-started/', 'out': 'get-started/index.html',
-        'title': 'Book Prenatal & Postpartum Coaching in Jersey City',
+        'title': 'Book Prenatal & Postpartum Coaching',
         'desc': 'Get started with Elise Javetski, prenatal and postpartum strength coach in Jersey City. Send a message, see 1-on-1 pricing and read common questions.',
         'schema': lambda g: g.get('@type') == 'FAQPage',
     },
