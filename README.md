@@ -52,6 +52,7 @@ The Get started form sends messages through [Web3Forms](https://web3forms.com) (
 - Google Search Console: `elisejavetski.com` is added as a Domain property and verified by the TXT record above.
 - The sitemap `https://elisejavetski.com/sitemap.xml` is submitted. When adding it, enter the full address, not just the domain.
 - Bing Webmaster Tools can import everything from Search Console in one click.
+- Icons: `favicon.ico`, `favicon.svg`, `favicon-*.png`, `apple-touch-icon.png` and `site.webmanifest` (made from the logo). Google shows the icon next to search results; it needs a real file, not one embedded in the page.
 - Search data is built in: each page has its own title and description, plus structured data for Elise, her business and services (including the weekly class schedule) and the FAQs. The classes are deliberately not marked as Google "events": that needs a specific date, price and image for every class.
 - Links from her Instagram, LinkedIn and coach directory listings (Girls Gone Strong, NASM) help her name searches the most.
 

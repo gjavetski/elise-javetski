@@ -11,6 +11,7 @@ description and search data:
 
 Run from the repo root:  python3 _tools/build.py
 """
+import datetime
 import json
 import os
 import re
@@ -21,13 +22,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = {
     'home': {
         'path': '/', 'out': 'index.html',
-        'title': 'Elise Javetski | Prenatal & Postpartum Personal Trainer in Jersey City',
-        'desc': None,  # keep the description already in _src/site.html
+        'title': 'Prenatal & Postpartum Personal Trainer in Jersey City',
+        'desc': 'Strength training for pregnancy and after baby in Jersey City: 1-on-1 coaching in person or online, weekly group classes for moms, and assisted stretching.',
         'schema': lambda g: g.get('@type') != 'FAQPage',
     },
     'services': {
         'path': '/coaching/', 'out': 'coaching/index.html',
-        'title': 'Group Classes & 1-on-1 Prenatal and Postpartum Coaching in Jersey City | Elise Javetski',
+        'title': 'Group Classes & 1-on-1 Coaching for Moms in Jersey City',
         'desc': 'Group strength classes and 1-on-1 private coaching for pregnant and postpartum moms with Elise Javetski in Jersey City, in person or online. See the weekly class schedule.',
         'schema': lambda g: g.get('@id', '').endswith('#business'),
     },
@@ -39,7 +40,7 @@ PAGES = {
     },
     'book': {
         'path': '/get-started/', 'out': 'get-started/index.html',
-        'title': 'Get Started with Prenatal & Postpartum Coaching | Elise Javetski',
+        'title': 'Book Prenatal & Postpartum Coaching in Jersey City',
         'desc': 'Get started with Elise Javetski, prenatal and postpartum strength coach in Jersey City. Send a message, see 1-on-1 pricing and read common questions.',
         'schema': lambda g: g.get('@type') == 'FAQPage',
     },
@@ -125,7 +126,8 @@ def build():
         print('wrote', cfg['out'], round(len(h.encode()) / 1024), 'KB')
 
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    sm += ['  <url><loc>%s%s</loc></url>' % (SITE, c['path']) for c in PAGES.values()]
+    today = datetime.date.today().isoformat()
+    sm += ['  <url><loc>%s%s</loc><lastmod>%s</lastmod></url>' % (SITE, c['path'], today) for c in PAGES.values()]
     sm.append('</urlset>')
     open(os.path.join(ROOT, 'sitemap.xml'), 'w').write('\n'.join(sm) + '\n')
     print('wrote sitemap.xml')
